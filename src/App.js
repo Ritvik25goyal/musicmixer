@@ -1,4 +1,7 @@
 import './App.css';
+import Login from './Login';
+import { BrowserRouter, Routes, Route } from 'react-router-dom';
+import Root from './Root';
 import React, { useState, useEffect } from 'react';
 import Player from './components/Player';
 import axios from 'axios';
@@ -33,6 +36,12 @@ function App() {
   
   console.log(topTracks)
   return (
+    <BrowserRouter>
+      <Routes >
+        <Route path="/" element={<Login/>} />
+        <Route path="/home" element={<Root />}/>
+      </Routes>
+    </BrowserRouter>
     <>
     
     <div className='footer'>

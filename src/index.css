@@ -5,10 +5,101 @@ body {
     sans-serif;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
-  /* background-color: #000000; */
+  height: 100vh;
+  background-color: black;
 }
 
 code {
   font-family: source-code-pro, Menlo, Monaco, Consolas, 'Courier New',
     monospace;
 }
+
+@import url("https://fonts.googleapis.com/css2?family=Archivo&family=Roboto+Slab&display=swap");
+
+.App {
+  font-family: sans-serif;
+  text-align: center;
+  color: white;
+  display: grid;
+  height: auto;
+  grid-template-columns: 1fr 4fr;
+}
+
+.Container {
+  overflow-x: auto;
+  /* max-width: 800px; */
+  /* display: inline-flex; */
+  /* width: 600px; */
+  /* display: flex; */
+  /* margin: 50px; */
+}
+
+
+.songCard {
+  border-radius: 10px;
+  background-color: #282828;
+  min-width: 230px;
+  height: 270px;
+  padding: 15px 0px;
+  margin: 0 15px;
+}
+
+.songCard:hover {
+  transition-property: background-color;
+  transition-duration: 0.4s;
+  background-color: #353535;
+  cursor: pointer;
+}
+
+/* .imageHolder {
+  margin: 0;
+  padding: 0;
+} */
+
+.imgRounded {
+  border-radius: 10px;
+  box-shadow: 1px 3px 5px rgba(8, 1, 1, 0.555);
+  z-index: 1;
+}
+
+.title {
+  text-align: left;
+  font-family: "Archivo", sans-serif;
+  word-break: break-all;
+  padding: 0 10px;
+  letter-spacing: 1.5px;
+  margin: 20px 0 0 0;
+}
+
+.description {
+  padding: 0 10px;
+  color: #a7a7a7;
+  font-family: "Roboto Slab", serif;
+  word-break: break-all;
+  text-align: left;
+  margin: 4px 0 0 0;
+  /* border: 0.5px #646464 solid; */
+}
+
+.playButton {
+  /* border: 3px solid #005f00; */
+  border-radius: 100%;
+  width: 45px;
+  height: 45px;
+  background-color: #1fdf64;
+  /* text-align: center; */
+  align-items: center;
+  justify-content: center;
+  display: flex;
+  position: relative;
+  left: 160px;
+  bottom: 90px;
+  margin: 0;
+  padding: 0;
+  cursor: pointer;
+}
+ .Content{
+  display: flex;
+  flex-direction: column;
+  flex: 1;
+ }
