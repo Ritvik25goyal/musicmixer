@@ -6,7 +6,6 @@ function Container() {
     return (
         <div className="container">
             <div className="Title">
-                HI
             </div>
             <Card />
             <Card />
