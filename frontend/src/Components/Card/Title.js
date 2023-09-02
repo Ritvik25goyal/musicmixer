@@ -1,8 +1,8 @@
 import React from "react";
-function Title() {
+function Title({title}) {
   return (
     <div>
-      <h3 className="title">This is a title</h3>
+      <h3 className="title">{title}</h3>
     </div>
   );
 }

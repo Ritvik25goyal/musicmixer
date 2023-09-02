@@ -1,54 +1,60 @@
-import React,{useState,useEffect} from "react";
+import React, { useState, useEffect } from "react";
 import Sidebar from "../src/Components/sidebar/Sidebar";
 import Container from "../src/Components/Container/container";
 import Player from '../src/Components/Player';
 import axios from 'axios';
+import Card from "./Components/Card/Cards";
+
+
 
 function Root() {
-  const [topTracks, setTopTracks] = useState([]);
-  var accessToken ="BQBoJnhbfkgB56ouzGuCHJ4ByQzawGHkBTAdnx7G8b1_NQXfHmPW_VvndPJ8K3zYzc2uiqSIZxY7kPrUNZt5OMZPE9oy1mrsiLSTP1Cevdajbp12RfMLQhjfjNggjRXupFN5Ov1779kZk-lOhDbUxd2coGv7tPaZVIrAnCdmGH5DkC8cml4NpLNmJtyQbVh_mVvBXpbPTu93fmjIJP3FWguKX55-gCcSNv8jTFmGt-5SOSq8GOVk5V0YP2StjucCRh7zKA"
-  var auth = "BQBoJnhbfkgB56ouzGuCHJ4ByQzawGHkBTAdnx7G8b1_NQXfHmPW_VvndPJ8K3zYzc2uiqSIZxY7kPrUNZt5OMZPE9oy1mrsiLSTP1Cevdajbp12RfMLQhjfjNggjRXupFN5Ov1779kZk-lOhDbUxd2coGv7tPaZVIrAnCdmGH5DkC8cml4NpLNmJtyQbVh_mVvBXpbPTu93fmjIJP3FWguKX55-gCcSNv8jTFmGt-5SOSq8GOVk5V0YP2StjucCRh7zKA"
-
+  const [playtrack, setplaytrack] = useState([]);
+  const [accessToken, setAccessToken] = useState('');
+  const [currentsong, setcurrentsong] = useState([]);
+  const [genreRecommendations, setGenreRecommendations] = useState({});
   useEffect(() => {
-    const fetchTopTracks = async () => {
-      try {
-        const response = await axios.get('https://api.spotify.com/v1/me/top/tracks', {
-          headers: {
-            Authorization: `Bearer ${auth}`,
-          },
-        });
-        setTopTracks(response.data.items);
-      } catch (error) {
-        console.error('Error fetching top tracks:', error);
-      }
-    };
-
-    fetchTopTracks();
-  }, [auth])
-
-
-  const topTracksuri = topTracks.map((track) => track.uri);
-  console.log(topTracksuri)
+    axios
+      .get('http://127.0.0.1:8000/genre_recommendations/')
+      .then((response) => {
+        console.log(response.data);
+        setAccessToken(response.data.access_token);
+        setGenreRecommendations(response.data.genre_recommendation || {});
+      })
+      .catch((error) => {
+        console.error('Error fetching data:', error);
+      });
+  }, []);
   
-  console.log(topTracks)
-  return (
-    <>
-      <div className="App">
-        <Sidebar />
-        <div className="empty"></div>
-        <div className="Content">
-          <Container />
-          <Container />
-          <Container />
-          <Container />
-          <Container />
-        </div>
-      </div>
-      <div className='footer'>
-        <Player accessToken={accessToken} trackUri={topTracksuri[1]} />
-      </div>
-    </>
-  )
-}
+  
 
+
+  console.log(currentsong)
+    return (
+      <>
+        <div className="App">
+          <Sidebar />
+          <div className="Content">
+            {Object.keys(genreRecommendations).map((genre) => (
+              <div key={genre}>
+                <h2>{genre}</h2>
+                {genreRecommendations[genre]?.tracks?.map((track) => (
+                  <div key={track.album.id}>
+                    <Card
+                      image={track.album.images[1].url}
+                      title={track.album.name}
+                      description={track.album.artists[0].name}
+                    />
+                  </div>
+                ))}
+              </div>
+            ))}
+          </div>
+        </div>
+        <div className='footer'>
+          {/* Make sure to pass the correct props to the Player component */}
+          <Player accessToken={accessToken} trackUri={currentsong} />
+        </div>
+      </>
+    );
+  }
 export default Root

@@ -1,11 +1,11 @@
 import React from "react";
 
-function Img() {
+function Img({imgurl}) {
   return (
     <div className="imageHolder">
       <img
         className="imgRounded"
-        src="https://picsum.photos/200"
+        src={imgurl}
         alt="Any Random"
       />
     </div>

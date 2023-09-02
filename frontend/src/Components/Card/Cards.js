@@ -12,7 +12,7 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faPlay } from "@fortawesome/free-solid-svg-icons";
 
 //Main Function
-function Card() {
+function Card({image, title, description, id}) {
   // For Mouse Hover Effect of Play button.
   const [isHovering, setIsHovering] = useState(false);
 
@@ -30,9 +30,9 @@ function Card() {
       onMouseOver={handleMouseOver}
       onMouseOut={handleMouseOut}
     >
-      <Img />
-      <Title />
-      <Description />
+      <Img imgurl={image}/>
+      <Title title={title}/>
+      <Description description={description}/>
 
       {/* This is the part which would be shown on hover effect */}
 

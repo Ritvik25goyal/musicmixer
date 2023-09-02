@@ -1,9 +1,9 @@
 import React from "react";
 
-function Description() {
+function Description({description}) {
   return (
     <div>
-      <p className="description">This is a random image</p>
+      <p className="description">{description}</p>
     </div>
   );
 }

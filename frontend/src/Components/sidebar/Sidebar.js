@@ -6,12 +6,12 @@ export default function Sidebar() {
       <div className="top__links">
         <ul>
           <li>
-              <a href="http://127.0.0.1:8000/get_user_profile/">
-                <span>Recommendations based on recent taste</span>
+              <a>
+                {/* <span>Recommendations based on recent taste</span> */}
               </a>
           </li>
           <li>
-              <a href="http://127.0.0.1:8000/genre_recommendations/">
+              <a >
                 <span>Recommendations based on genre</span>
               </a>
           </li>

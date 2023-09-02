@@ -99,8 +99,59 @@ code {
   cursor: pointer;
 }
  .Content{
+  left: 300px;
   display: flex;
   flex-direction: column;
+  justify-content: center;
   flex: 1;
-  height: 1850px;
+  height: fit-content;
  }
+/* Reset some default margin and padding */
+body, h1, h2, div {
+  margin: 0;
+  padding: 0;
+}
+
+/* Style the overall App container */
+.App {
+  display: flex;
+  flex-direction: row;
+  height: 100vh; /* Set the desired height of the main container */
+}
+
+/* Style the Sidebar */
+.Sidebar {
+  /* Add your styles for the Sidebar here */
+}
+
+/* Style the Content container */
+.Content {
+  flex: 1; /* Take up the remaining horizontal space */
+  padding: 20px; /* Add padding as needed */
+}
+
+/* Style the genre section */
+h2 {
+  font-size: 24px;
+  margin-bottom: 10px;
+}
+
+/* Style the Card component */
+.Card {
+  /* Add your styles for the Card component here */
+  margin-bottom: 20px;
+}
+
+/* Style the footer */
+.footer {
+  /* Add your styles for the footer here */
+  background-color: #333;
+  color: #fff;
+  padding: 10px;
+  text-align: center;
+}
+
+/* Style the Player component */
+.Player {
+  /* Add your styles for the Player component here */
+}
