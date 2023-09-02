@@ -61,8 +61,9 @@ def get_user_profile(request):
             'auth': auth,
             'songs_json' : fetch_recent_recommendations(headers)
         }
-
+        return JsonResponse(fetch_recent_recommendations(headers))
         return render(request, 'recommendations_recent.html', context)
+    
     except:
         return HttpResponse('User not logged in')
     
@@ -77,7 +78,6 @@ def get_genre_recommendations(request):
                 'genre_recommendation' : fetch_genre_recommendations(headers)
         }
 
-        return JsonResponse(fetch_genre_recommendations(headers), safe=False)
         return render(request, 'recommendations_genre.html', context)
         """     except:
             return HttpResponse('User not logged in') """
@@ -100,9 +100,11 @@ def create_spotify_oauth():
         scope='user-library-read user-top-read user-read-recently-played user-read-email',)
 
 def fetch_recent_recommendations(headers):
-    r_artists_recent = requests.get("https://api.spotify.com/v1/me/top/artists?time_range=short_term&offset=10", headers=headers).json()['items']
-    r_tracks_recent = requests.get("https://api.spotify.com/v1/me/top/tracks?time_range=short_term&offset=50", headers=headers).json()['items']
-    r_tracks_recently_listened = (requests.get("https://api.spotify.com/v1/me/player/recently-played?limit=50", headers=headers)).json()['items']
+    r_artists_recent = requests.get("https://api.spotify.com/v1/me/top/artists?time_range=short_term&offset=10", headers=headers).json()
+    r_tracks_recent = requests.get("https://api.spotify.com/v1/me/top/tracks?time_range=short_term&offset=50", headers=headers).json()
+    r_tracks_recently_listened = (requests.get("https://api.spotify.com/v1/me/player/recently-played?limit=50", headers=headers)).json()
+
+    return r_artists_recent
 
     try:
         features_of_track_avg = {"acousticness": 0 , "danceability" : 0, "energy":0, "liveness":0, "loudness":0}
@@ -161,9 +163,18 @@ def fetch_genre_recommendations(headers):
                     favorite_genres[genre] = 1
     
     top_3_genres = sorted(favorite_genres, key=favorite_genres.get, reverse=True)[:3]
+
+    artists_in_fav_genres = {}
+
+    for genre in top_3_genres:
+        for artist in r_artists_all_time:
+            artist_genres = artist['genres']
+            if genre in artist_genres:
+                artists_in_fav_genres[genre] = artist['id']
+
     genre_recommendations = {}
 
     for genre in top_3_genres:
-        genre_recommendations[genre] = requests.get(f"https://api.spotify.com/v1/recommendations?seed_genres={genre}&limit=5", headers=headers).json()
+        genre_recommendations[genre] = requests.get(f"https://api.spotify.com/v1/recommendations?seed_genres={genre}&seed_artists={artists_in_fav_genres[genre]}&limit=5", headers=headers).json()
     
     return (genre_recommendations)

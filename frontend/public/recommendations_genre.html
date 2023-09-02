@@ -7,4 +7,21 @@
     Link Root.js with this template. genre_recommendation in the format of json with 3 dictionary key of genre and value as array of song_objects corresponding to that genre.-->
 
 
-    <div> {{ songs_json }}</div>
+    <>
+      <div className="App">
+        <Sidebar />
+        <div className="empty"></div>
+        <div className="Content">
+          <Container />
+          <Container />
+          <Container />
+          <Container />
+          <Container />
+        </div>
+      </div>
+      <div className='footer'>
+        <Player accessToken={accessToken} trackUri={topTracksuri[1]} />
+      </div>
+    </>
+    
+    
