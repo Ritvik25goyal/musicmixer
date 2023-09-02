@@ -18,8 +18,10 @@ from django.urls import path
 from . import views
 
 urlpatterns = [
-    path('',views.login, name='home'),
+    path('',views.home, name='home'),
+    path('login/',views.login, name='login'),
     path('redirect/',views.redirect_page, name='redirect'),
     path('getuserprofile/', views.get_user_profile,name='get_user_profile'),
+    path('genre_recommendations/', views.get_genre_recommendations,name='get_genre_recommendations'),
     path('admin/', admin.site.urls, name='admin'),
 ]

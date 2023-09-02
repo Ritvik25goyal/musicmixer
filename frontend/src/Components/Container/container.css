@@ -1,0 +1,11 @@
+.container{
+    display: flex;
+    margin-top: 50px;
+}
+
+.container .Title{
+    position: relative;
+    top: -40px;
+    font-size: larger;
+    margin: 10px;
+}

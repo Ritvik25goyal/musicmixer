@@ -3,12 +3,15 @@ from spotipy.oauth2 import SpotifyOAuth
 import time
 from requests import Request, post
 import requests
-from django.shortcuts import redirect
+from django.shortcuts import redirect, render
 from django.http import HttpResponse, JsonResponse
 
 CLIENT_ID="28335f718466458e9b3157d14607750b"
 CLIENT_SECRET= "e1152a738d7d40d59d9a8ce7b9850698"
 REDIRECT_URL = 'http://127.0.0.1:8000/redirect/'
+
+def home(request):
+    return render(request, 'index.html')
 
 def login(request):
 
@@ -52,8 +55,32 @@ def get_user_profile(request):
         get_token(request=request)
         auth =request.session.get('access_token')
         headers = {'Authorization': f'Bearer {auth}'}
+
+        context = {
+            'access_token': request.session.get('access_token'),
+            'auth': auth,
+            'songs_json' : fetch_recent_recommendations(headers)
+        }
+
+        return render(request, 'recommendations_recent.html', context)
     except:
         return HttpResponse('User not logged in')
+    
+def get_genre_recommendations(request):
+        get_token(request=request)
+        auth =request.session.get('access_token')
+        headers = {'Authorization': f'Bearer {auth}'}
+
+        context = {
+                'access_token': request.session.get('access_token'),
+                'auth': auth,
+                'genre_recommendation' : fetch_genre_recommendations(headers)
+        }
+
+        return JsonResponse(fetch_genre_recommendations(headers), safe=False)
+        return render(request, 'recommendations_genre.html', context)
+        """     except:
+            return HttpResponse('User not logged in') """
    
 def get_token(request):
     access_token  = request.session.get('access_token')
@@ -102,16 +129,16 @@ def fetch_recent_recommendations(headers):
             &target_danceability={features_of_track_avg['danceability']}
             &target_liveness={features_of_track_avg['liveness']}
             &target_energy={features_of_track_avg['energy']}
-            &target_loudness={features_of_track_avg['loudness']}''', headers=headers).json()['items'][0:15]
+            &target_loudness={features_of_track_avg['loudness']}''', headers=headers).json()['tracks'][0:15]
         
-        return JsonResponse(r_sug_recent_listening)
+        return (r_sug_recent_listening)
         
     except:
-        return HttpResponse("No recent tracks")
+        return ({})
     
 def fetch_genre_recommendations(headers):
-    r_artists_all_time = requests.get("https://api.spotify.com/v1/me/top/artists?time_range=long_term&offset=10", headers=headers).json()
-    r_tracks_all_time = requests.get("https://api.spotify.com/v1/me/top/tracks?time_range=long_term&offset=50", headers=headers).json()
+    r_artists_all_time = requests.get("https://api.spotify.com/v1/me/top/artists?time_range=long_term&offset=10", headers=headers).json()['items']
+    r_tracks_all_time = requests.get("https://api.spotify.com/v1/me/top/tracks?time_range=long_term&offset=50", headers=headers).json()['items']
 
     favorite_genres = {}
 
@@ -137,6 +164,6 @@ def fetch_genre_recommendations(headers):
     genre_recommendations = {}
 
     for genre in top_3_genres:
-        genre_recommendations[genre] = requests.get(f"https://api.spotify.com/v1/recommendations?seed_genre={genre}", headers=headers).json()['items'][0:15]
+        genre_recommendations[genre] = requests.get(f"https://api.spotify.com/v1/recommendations?seed_genres={genre}&limit=5", headers=headers).json()
     
-    return JsonResponse(genre_recommendations.json())
+    return (genre_recommendations)

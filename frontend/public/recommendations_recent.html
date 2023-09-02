@@ -1,0 +1,10 @@
+<!-- When recommendations based on recent trends buttong is clicked :
+     context = {
+            'access_token': request.session.get('access_token'),
+            'auth': auth,
+            'songs_json' : fetch_recent_recommendations(headers)
+        }  passed into this file and each of the field value can be accessed through {{field_name}} eg : {{access_token}}
+    Link Root.js with this template. songs_json in the format of array of song_objects and can also be empty dictionary.  -->
+
+
+<div> {{ songs_json }}</div>
